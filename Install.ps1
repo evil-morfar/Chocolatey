@@ -79,7 +79,7 @@ function InstallFromList {
 }
 
 
-if ($noop) { $noopCmd = "-r --noop" }
+if ($noop) { $noopCmd = "--noop" }
 
 if ($all) {
     ExecuteRemoteScript "Basic.ps1";
