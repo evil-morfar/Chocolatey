@@ -3,7 +3,7 @@
 In an elevated powershell simply run:
 
 ```ps
-iex "& { $(irm https://raw.githubusercontent.com/evil-morfar/Chocolatey/master/Install.ps1) } -all -windows
+iex "& { $(irm https://raw.githubusercontent.com/evil-morfar/Chocolatey/master/Install.ps1) } -all -windows"
 ```
 
 To install everything.
