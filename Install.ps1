@@ -17,7 +17,7 @@ catch {
 }
 
 $noopCmd = ""
-$helperUri = "https://gist.githubusercontent.com/evil-morfar/7250312db97f4932a99a5b224cbc5d5a/raw/1b5e47618814f5032a48c87e515c312397cc60c7"
+$helperUri = "https://raw.githubusercontent.com/evil-morfar/Chocolatey/master/Scripts"
 
 function ExecuteRemoteScript {
     <#
