@@ -1,0 +1,14 @@
+# Basics
+"dropbox, pin, googlechrome,pin, jre8, winrar, vlc, spotify, pin"
+
+# Gaming
+"steam, pin, discord, pin, msiafterburner"
+
+# Programming
+"git, vscode,pin, gitkraken, pin, nodejs, cmder, gow, notepadplusplus"
+
+#Utils
+"ccleaner, crystaldiskmark, qbittorent, systemexplorer, treesizefree, windirstat, snagit"
+
+## nnp
+"displayFusion, rainmeter, translucenttb, wox, Everything, kodi, samsung-magician, teamviewer, pin"
