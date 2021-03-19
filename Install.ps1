@@ -8,6 +8,8 @@ Param (
 )
 
 
+Write-Output "Running Install script..."
+
 try {
     choco config get cacheLocation -r
 }
@@ -19,6 +21,16 @@ catch {
 $noopCmd = ""
 $helperUri = "https://raw.githubusercontent.com/evil-morfar/Chocolatey/master/Scripts"
 
+
+function GetArrayFromCSVString {
+    param (
+        [string]$csvString
+    )
+    if ([string]::IsNullOrWhiteSpace($csvString) -eq $false) {  
+        return $csvString -split "," | foreach { "$($_.Trim())" }
+    }
+}
+
 function ExecuteRemoteScript {
     <#
     .SYNOPSIS
@@ -26,19 +38,31 @@ function ExecuteRemoteScript {
     #>
     param(
         # Name of the script to run.
-        [string]$script
+        [string]$scripts
     )
 
-    Write-Host "Executing $helperUri/$script ..."
-    $content = (New-Object net.WebClient).DownloadString("$helperUri/$script")
-    # $content = Get-Content -Path .\$script
-    $content = $content -split "\n" | foreach { "$($_.Trim())" }
-    foreach ($line in $content) {
-        # Skip comments and empty lines
-        if (($line.StartsWith("#") -eq $false) -and ([string]::IsNullOrWhiteSpace($line) -eq $false)) {
-            Invoke-Expression "$line $noopCmd" 
+    foreach ($script in GetArrayFromCSVString "$scripts") {
+        if ($script.EndsWith(".ps1") -eq $false) {
+            $script = $script + ".ps1"
         }
+
+        Write-Host "Executing $helperUri/$script ..."
+
+        $content = (New-Object net.WebClient).DownloadString("$helperUri/$script")
+        # $content = Get-Content -Path .\$script
+
+        $content = $content -split "\n" | foreach { "$($_.Trim())" }
+
+        foreach ($line in $content) {
+            # Skip comments and empty lines
+            if (($line.StartsWith("#") -eq $false) -and ([string]::IsNullOrWhiteSpace($line) -eq $false)) {
+                Invoke-Expression "$line $noopCmd" 
+            }
+        }
+        Write-Output "Done with $script"
+        Write-Output "---------------------------------------------`n"
     }
+
 }
 
 
@@ -57,7 +81,7 @@ function InstallFromList {
     if ([string]::IsNullOrWhiteSpace($chocolateyAppList) -eq $false) {   
         Write-Host "Chocolatey Apps Specified"  
     
-        $appsToInstall = $chocolateyAppList -split "," | foreach { "$($_.Trim())" }
+        $appsToInstall = GetArrayFromCSVString "$chocolateyAppList"
 
         $prev = ""
 
@@ -81,18 +105,18 @@ function InstallFromList {
 
 if ($noop) { $noopCmd = "--noop" }
 
-if ($all) {
-    ExecuteRemoteScript "Basic.ps1";
-    ExecuteRemoteScript "Gaming.ps1";
-    ExecuteRemoteScript "Programming.ps1";
-    ExecuteRemoteScript "Utils.ps1";
-    ExecuteRemoteScript "nnp.ps1";
-    return
+if ($windows) {
+    if ($noop -eq $false) {
+        Write-Output "Setting up Windows settings ..."
+        Invoke-Expression ((New-Object System.Net.WebClient).DownloadString("$helperUri/WindowsSettings.ps1"))
+    } else {
+        Write-Output "Skipping Windows Settings (-noop)`n"
+    }
 }
 
-if ($windows) {
-    Write-Output "Setting up Windows settings ..."
-    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString("$helperUri/WindowsSettings.ps1"))
+if ($all) {
+    ExecuteRemoteScript "Basic, Gaming, Programming, Utils, nnp";
+    return
 }
 
 if ($list) {
@@ -100,5 +124,5 @@ if ($list) {
 }
 
 if ($scripts) {
-    ExecuteRemoteScript $scripts
+    ExecuteRemoteScript "$scripts"
 }
