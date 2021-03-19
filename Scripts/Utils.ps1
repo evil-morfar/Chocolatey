@@ -6,3 +6,5 @@ choco install -y systemexplorer
 choco install -y treesizefree
 choco install -y windirstat
 choco install -y snagit
+choco install -y hwinfo
+choco install -y cpu-z

@@ -8,7 +8,7 @@
 "git, vscode,pin, gitkraken, pin, nodejs, cmder, gow, notepadplusplus"
 
 #Utils
-"ccleaner, crystaldiskmark, qbittorent, systemexplorer, treesizefree, windirstat, snagit"
+"ccleaner, crystaldiskmark, qbittorent, systemexplorer, treesizefree, windirstat, snagit, hwinfo, cpu-z"
 
 ## nnp
 "displayFusion, rainmeter, translucenttb, wox, Everything, kodi, samsung-magician, teamviewer, pin"
