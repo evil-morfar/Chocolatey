@@ -5,7 +5,7 @@ choco pin add --name=vscode
 choco install -y Microsoft-Hyper-V-All --source="'windowsFeatures'"
 choco install -y gitkraken
 choco pin add --name=gitkraken
-choco install -y nodejs
+choco install -y nodejs-lts
 choco install -y cmder
 choco install -y gow
 choco install -y notepadplusplus
